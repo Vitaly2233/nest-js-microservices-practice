@@ -1,0 +1,28 @@
+version: "3"
+services:
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - backend
+  hello:
+    build: ./hello-microservice
+    restart: always
+    hostname: hello
+    networks:
+      - backend
+  monolith:
+    build: ./program-monolith
+    restart: always
+    hostname: monolith
+    networks:
+      - backend
+      - frontend
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    external:
+      name: infrastructure
